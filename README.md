@@ -33,7 +33,7 @@ The environment is deployed on an isolated private network (`192.168.57.0/24`):
 
 ## Repository Structure
 
-```text
+```
 .
 ├── README.md
 ├── Vagrantfile
