@@ -4,7 +4,7 @@
 
 To start the virtual environment, execute the following command in the project root directory:
 
-```bash
+```
 vagrant up
 ```
 
@@ -16,7 +16,7 @@ This brings up both nodes: `dns` (`192.168.57.10`) and `web` (`192.168.57.11`).
 
 Access the DNS machine:
 
-```bash
+```
 vagrant ssh dns
 ```
 
@@ -24,7 +24,7 @@ vagrant ssh dns
 
 Ensure that the BIND options file includes Cloudflare (`1.1.1.1`) as forwarder and enforces DNSSEC validation:
 
-```named
+```
 options {
     directory "/var/cache/bind";
 
@@ -41,7 +41,7 @@ options {
 
 Declare direct and reverse master zones:
 
-```named
+```
 zone "olimpo.test" {
     type master;
     file "/etc/bind/db.olimpo.test";
@@ -57,7 +57,7 @@ zone "57.168.192.in-addr.arpa" {
 
 Define authoritative NS records, A records for hosts, and CNAME aliases for the websites:
 
-```dns
+```
 $TTL    604800
 @       IN      SOA     ns1.olimpo.test. admin.olimpo.test. (
                               1         ; Serial
@@ -79,7 +79,7 @@ atenea  IN      CNAME   mercurio.olimpo.test.
 
 Configure PTR records for IP-to-hostname reverse lookups:
 
-```dns
+```
 $TTL    604800
 @       IN      SOA     ns1.olimpo.test. admin.olimpo.test. (
                               1         ; Serial
@@ -97,7 +97,7 @@ $TTL    604800
 
 Validate syntax and restart the BIND9 service:
 
-```bash
+```
 sudo named-checkconf
 sudo named-checkzone 57.168.192.in-addr.arpa /etc/bind/db.192.168.57
 sudo systemctl restart bind9
@@ -108,7 +108,7 @@ sudo systemctl restart bind9
 
 Verify DNS queries locally with `dig`:
 
-```bash
+```
 dig @127.0.0.1 apolo.olimpo.test +short
 dig @127.0.0.1 atenea.olimpo.test +short
 dig @127.0.0.1 -x 192.168.57.11 +short
@@ -119,7 +119,7 @@ dig @127.0.0.1 -x 192.168.57.11 +short
 
 Log out of the machine:
 
-```bash
+```
 exit
 ```
 
@@ -129,7 +129,7 @@ exit
 
 Access the web machine:
 
-```bash
+```
 vagrant ssh web
 ```
 
@@ -137,7 +137,7 @@ vagrant ssh web
 
 Verify that `/etc/resolv.conf` targets `192.168.57.10`:
 
-```bash
+```
 cat /etc/resolv.conf
 ```
 
@@ -148,7 +148,7 @@ cat /etc/resolv.conf
 
 #### Apolo (`/etc/apache2/sites-available/apolo.olimpo.test.conf`)
 
-```apache
+```
 <VirtualHost *:80>
     ServerName apolo.olimpo.test
     DocumentRoot /var/www/apolo.olimpo.test
@@ -169,7 +169,7 @@ cat /etc/resolv.conf
 
 #### Atenea (`/etc/apache2/sites-available/atenea.olimpo.test.conf`)
 
-```apache
+```
 <VirtualHost *:80>
     ServerName atenea.olimpo.test
     DocumentRoot /var/www/atenea.olimpo.test
@@ -192,7 +192,7 @@ cat /etc/resolv.conf
 
 Enable both virtual hosts and reload the Apache service:
 
-```bash
+```
 sudo a2ensite apolo.olimpo.test.conf
 sudo a2ensite atenea.olimpo.test.conf
 sudo apache2ctl configtest
@@ -210,7 +210,7 @@ sudo systemctl reload apache2
 
 To enable domain resolution from the Windows 11 host, append the following records to `C:\Windows\System32\drivers\etc\hosts`:
 
-```text
+```
 192.168.57.11 apolo.olimpo.test
 192.168.57.11 atenea.olimpo.test
 ```
