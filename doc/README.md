@@ -241,5 +241,8 @@ Because directory indexing is disabled (`Options -Indexes`) and no index file ex
 #### Test 4: Atenea Missing Resource (`http://atenea.olimpo.test/index.html`)
 Because `index.html` does not exist, the custom 404 handler serves `/messages/404.html`.
 
-> ![](<Screenshot 2026-11-10 131907-1.png>)  
+<img width="1232" height="260" alt="Screenshot 2026-11-10 122757" src="https://github.com/user-attachments/assets/70cb274e-4eb9-48e1-98f0-85374eedb346" />
+
+> ![](<Screenshot 20![Uploading Screenshot 2026-11-10 122757.png…]()
+26-11-10 131907-1.png>)  
 > *(Shows browser displaying "Resource not found on atenea.olimpo.test")*
